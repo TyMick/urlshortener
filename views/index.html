@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- prettier-ignore -->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="https://cdn.glitch.com/9593a6ff-8898-44c8-9540-633b69a016e5%2Ffavicon.ico?v=1579997631088" type="image/x-icon" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/default.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+
+    <title>URL shortener microservice – Ty Mick</title>
+  </head>
+
+  <body style="background-color: #dee2e6;">
+    <div class="container-sm my-5">
+      <h1 class="mb-4">URL shortener microservice</h1>
+
+      <!-- API test front end -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="mb-3">Test this API:</h5>
+
+          <form
+            action="api/shorturl/new"
+            method="POST"
+            id="postTest"
+            class="mb-4"
+          >
+            <div class="form-group">
+              <label for="postInput"
+                >Shorten a URL
+                <span class="text-muted"
+                  >(via https://ty-timestamp.glitch.me/api/shorturl/new)</span
+                ></label
+              >
+              <input
+                type="text"
+                id="postInput"
+                name="url"
+                class="form-control"
+                aria-describedby="postHelp"
+              />
+              <small id="postHelp" class="form-text text-muted"
+                >URL must have a valid domain and follow the
+                <samp> http(s)://www.example.com(/more/routes)</samp> format to
+                get a meaningful response.</small
+              >
+            </div>
+
+            <button type="submit" class="btn btn-primary">POST</button>
+          </form>
+
+          <form id="getTest" class="mb-4">
+            <div class="form-group">
+              <label for="getInput">Access a shortened URL</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    https://ty-timestamp.glitch.me/api/shorturl/
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  id="getInput"
+                  class="form-control"
+                  style="max-width: 7em;"
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">GET</button>
+          </form>
+
+          <h5>API response:</h5>
+
+          <div class="card">
+            <pre id="apiOutput" class="hljs bg-white mb-0">&#8203;</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Explanation -->
+      <p class="lead font-italic">
+        View the source on
+        <a href="https://github.com/tywmick/urlshortener">GitHub</a>
+        or <a href="https://glitch.com/edit/#!/ty-urlshortener">Glitch</a>.
+      </p>
+
+      <p>
+        I created this microservice in fulfillment of
+        <a href="https://freecodecamp.org">freeCodeCamp</a>'s APIs and
+        Microservices Project
+        <a
+          href="https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/url-shortener-microservice"
+          >URL Shortener Microservice</a
+        >, using <a href="https://nodejs.org/en/">Node.js</a> and
+        <a href="https://expressjs.com/">Express</a>,
+        <a href="https://mongoosejs.com/">Mongoose</a>, and a free
+        <a href="https://www.mongodb.com/cloud/atlas">MongoDB Atlas</a>
+        database. The above front end API test also uses
+        <a href="https://getbootstrap.com/">Bootstrap</a>,
+        <a href="https://jquery.com/">jQuery</a>, and
+        <a href="https://highlightjs.org/">highlight.js</a>. The API fulfills
+        the following user stories:
+      </p>
+
+      <ol>
+        <li>
+          I can POST a URL to <code>[project_url]/api/shorturl/new</code> and I
+          will receive a shortened URL in the JSON response.
+          <ul>
+            <li>
+              Example:
+              <code>{"original_url": "www.google.com", "short_url": 1}</code>
+            </li>
+          </ul>
+        </li>
+        <li>
+          If I pass an invalid URL that doesn't follow the
+          <code>http(s)://www.example.com(/more/routes)</code> format, the JSON
+          response will contain an error like
+          <code>{"error": "invalid URL"}</code>.
+          <ul>
+            <li>
+              HINT: to be sure that the submitted url points to a valid site you
+              can use the function <code>dns.lookup(host, cb)</code> from the
+              <code>dns</code> core module.
+            </li>
+          </ul>
+        </li>
+        <li>
+          When I visit the shortened URL, it will redirect me to my original
+          link.
+        </li>
+      </ol>
+
+      <!-- Glitch button -->
+      <div
+        class="glitchButton"
+        style="position:absolute;top:20px;right:20px;"
+      ></div>
+      <script src="https://button.glitch.me/button.js"></script>
+
+      <!-- API test scripts -->
+      <script>
+        $("#postTest").submit(function() {
+          event.preventDefault();
+          $.ajax({
+            url: "/api/shorturl/new",
+            type: "post",
+            data: { url: $("#postInput").val() },
+            success: function(result) {
+              $("#apiOutput").text(JSON.stringify(result, null, 2));
+              hljs.highlightBlock(document.getElementById("apiOutput"));
+            }
+          });
+        });
+      </script>
+      <script>
+        $("#getTest").submit(function() {
+          event.preventDefault();
+          $.ajax({
+            url: "/api/shorturl/" + $("#getInput").val(),
+            type: "get",
+            dataType: "json",
+            success: function(result) {
+              $("#apiOutput").text(JSON.stringify(result, null, 2));
+              hljs.highlightBlock(document.getElementById("apiOutput"));
+            },
+            error: function() {
+              window.location.href =
+                "https://ty-urlshortener.glitch.me/api/shorturl/" +
+                $("#getInput").val();
+            }
+          });
+        });
+      </script>
+    </div>
+  </body>
+</html>
