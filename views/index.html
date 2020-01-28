@@ -151,35 +151,36 @@
 
       <!-- API test scripts -->
       <script>
-        $("#postTest").submit(function() {
-          event.preventDefault();
-          $.ajax({
-            url: "/api/shorturl/new",
-            type: "post",
-            data: { url: $("#postInput").val() },
-            success: function(result) {
-              $("#apiOutput").text(JSON.stringify(result, null, 2));
-              hljs.highlightBlock(document.getElementById("apiOutput"));
-            }
+        $(function() {
+          $("#postTest").submit(function() {
+            event.preventDefault();
+            $.ajax({
+              url: "/api/shorturl/new",
+              type: "post",
+              data: { url: $("#postInput").val() },
+              success: function(result) {
+                $("#apiOutput").text(JSON.stringify(result, null, 2));
+                hljs.highlightBlock(document.getElementById("apiOutput"));
+              }
+            });
           });
-        });
-      </script>
-      <script>
-        $("#getTest").submit(function() {
-          event.preventDefault();
-          $.ajax({
-            url: "/api/shorturl/" + $("#getInput").val(),
-            type: "get",
-            dataType: "json",
-            success: function(result) {
-              $("#apiOutput").text(JSON.stringify(result, null, 2));
-              hljs.highlightBlock(document.getElementById("apiOutput"));
-            },
-            error: function() {
-              window.location.href =
-                "https://ty-urlshortener.glitch.me/api/shorturl/" +
-                $("#getInput").val();
-            }
+
+          $("#getTest").submit(function() {
+            event.preventDefault();
+            $.ajax({
+              url: "/api/shorturl/" + $("#getInput").val(),
+              type: "get",
+              dataType: "json",
+              success: function(result) {
+                $("#apiOutput").text(JSON.stringify(result, null, 2));
+                hljs.highlightBlock(document.getElementById("apiOutput"));
+              },
+              error: function() {
+                window.location.href =
+                  "https://ty-urlshortener.glitch.me/api/shorturl/" +
+                  $("#getInput").val();
+              }
+            });
           });
         });
       </script>
