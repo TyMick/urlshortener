@@ -1,6 +1,6 @@
 # URL shortener microservice
 
-I created this microservice in fulfillment of [freeCodeCamp](https://freecodecamp.org)'s APIs and Microservices Project [URL Shortener Microservice](https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/url-shortener-microservice), using [Node.js](https://nodejs.org/en/), [Express](https://expressjs.com/), [Mongoose](https://mongoosejs.com/), and a free [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) database. The front end API test on the main page also uses [Bootstrap](https://getbootstrap.com/), [jQuery](https://jquery.com/), and [highlight.js](https://highlightjs.org/). The API fulfills the following user stories:
+I created this app as a requirement for [my freeCodeCamp APIs and Microservices Certification](https://www.freecodecamp.org/certification/tywmick/apis-and-microservices), using [Node.js](https://nodejs.org/en/), [Express](https://expressjs.com/), [Mongoose](https://mongoosejs.com/), and a free [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) database. The front end API test on the main page also uses [Bootstrap](https://getbootstrap.com/), [jQuery](https://jquery.com/), and [highlight.js](https://highlightjs.org/). The API fulfills the following user stories:
 
 1.  I can POST a URL to `[project_url]/api/shorturl/new` and I will receive a shortened URL in the JSON response.
     - Example: `{"original_url": "www.google.com", "short_url": 1}`
