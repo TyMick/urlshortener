@@ -152,6 +152,10 @@
         $(function() {
           $("#postTest").submit(function() {
             event.preventDefault();
+            $("button").attr("disabled", true);
+            $("button", this).html(
+              '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Uploading...</span>'
+            );
             $.ajax({
               url: "/api/shorturl/new",
               type: "post",
@@ -159,12 +163,18 @@
               success: function(result) {
                 $("#apiOutput").text(JSON.stringify(result, null, 2));
                 hljs.highlightBlock(document.getElementById("apiOutput"));
+                $("#postTest button").html("POST");
+                $("button").removeAttr("disabled");
               }
             });
           });
 
           $("#getTest").submit(function() {
             event.preventDefault();
+            $("button").attr("disabled", true);
+            $("button", this).html(
+              '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Uploading...</span>'
+            );
             $.ajax({
               url: "/api/shorturl/" + $("#getInput").val(),
               type: "get",
@@ -172,6 +182,8 @@
               success: function(result) {
                 $("#apiOutput").text(JSON.stringify(result, null, 2));
                 hljs.highlightBlock(document.getElementById("apiOutput"));
+                $("#getTest button").html("GET");
+                $("button").removeAttr("disabled");
               },
               error: function() {
                 window.location.href =
